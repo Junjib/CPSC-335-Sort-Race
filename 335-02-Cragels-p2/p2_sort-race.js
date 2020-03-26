@@ -21,3 +21,23 @@ function setup() // P5 Setup Fcn
 function draw()
 {
 }
+
+function Golds() {
+
+    char array[];
+
+    if (array[0] < array[1])
+        x = array[0]
+    y = array[1]
+    array[0] = y
+    array[1] = x
+    so on for the entire array for evens and odds
+
+for (int i = 0; i < 16(length of array); i++
+    if (array[i] > array[i + 1])
+        int count = 0;
+    count++;
+    if (count == 16)
+        done = 1;
+    return 1;
+}
