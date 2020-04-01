@@ -23,85 +23,85 @@ function draw()
 }
 
 function Golds() {
-    int sort;
-    sort = 0;
+    var sort;
+    sort = 1;
+    var array = ['4', '5', 'A', '6', '2', '7', 'B', '2', 'B', '6', '1', '4'];
     //the array we want to sort
-    char array[];
-    while (sort == 0) {
+    while (sort == 1) {
         //even pairing
-        if (array[0] < array[1]) { 
-            x = array[0]
-            y = array[1]
-            array[0] = y
-            array[1] = x
+        if (array[0] > array[1]) { 
+            x = array[0];
+            y = array[1];
+            array[0] = y;
+            array[1] = x;
         }
-        if (array[2] < array[3]) {
-            x = array[2]
-            y = array[3]
-            array[2] = y
-            array[3] = x
+        if (array[2] > array[3]) {
+            x = array[2];
+            y = array[3];
+            array[2] = y;
+            array[3] = x;
         }
-        if (array[4] < array[5]) {
-            x = array[4]
-            y = array[5]
-            array[4] = y
-            array[5] = x
+        if (array[4] > array[5]) {
+            x = array[4];
+            y = array[5];
+            array[4] = y;
+            array[5] = x;
         }
-        if (array[6] < array[7]) {
-            x = array[6]
-            y = array[7]
-            array[6] = y
-            array[7] = x
+        if (array[6] > array[7]) {
+            x = array[6];
+            y = array[7];
+            array[6] = y;
+            array[7] = x;
         }
-        if (array[8] < array[9]) {
-            x = array[8]
-            y = array[9]
-            array[8] = y
-            array[9] = x
+        if (array[8] > array[9]) {
+            x = array[8];
+            y = array[9];
+            array[8] = y;
+            array[9] = x;
         }
-        if (array[10] < array[11]) {
-            x = array[10]
-            y = array[11]
-            array[10] = y
-            array[11] = x
+        if (array[10] > array[11]) {
+            x = array[10];
+            y = array[11];
+            array[10] = y;
+            array[11] = x;
         }
         //odd pairing
-        if (array[1] < array[2]) {
-            x = array[1]
-            y = array[2]
-            array[1] = y
-            array[2] = x
+        if (array[1] > array[2]) {
+            x = array[1];
+            y = array[2];
+            array[1] = y;
+            array[2] = x;
         }
-        if (array[3] < array[4]) {
-            x = array[3]
-            y = array[4]
-            array[3] = y
-            array[4] = x
+        if (array[3] > array[4]) {
+            x = array[3];
+            y = array[4];
+            array[3] = y;
+            array[4] = x;
         }
-        if (array[5] < array[6]) {
-            x = array[5]
-            y = array[6]
-            array[5] = y
-            array[6] = x
+        if (array[5] > array[6]) {
+            x = array[5];
+            y = array[6];
+            array[5] = y;
+            array[6] = x;
         }
-        if (array[7] < array[8]) {
-            x = array[7]
-            y = array[8]
-            array[7] = y
-            array[8] = x
+        if (array[7] > array[8]) {
+            x = array[7];
+            y = array[8];
+            array[7] = y;
+            array[8] = x;
         }
-        if (array[9] < array[10]) {
-            x = array[9]
-            y = array[10]
-            array[9] = y
-            array[10] = x
+        if (array[9] > array[10]) {
+            x = array[9];
+            y = array[10];
+            array[9] = y;
+            array[10] = x;
         }
-        for (int i = 0; i < 12; i+=2)
+        for (var i = 0; i < 12; i+=2)
         if (array[i] > array[i + 1])
-            int count = 0;
+            var count = 0;
             count++;
         if (count == 12)
             sort = 1;
-        return 1;
+        return 0;
     }
 }
