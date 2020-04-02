@@ -104,4 +104,48 @@ function Golds() {
             sort = 1;
         return 0;
     }
+
+    function mergeSort (unsortedArray) {
+        if (unsortedArray.length <= 1) {
+            return unsortedArray;
+        }
+        // Get the middle
+        const middle = Math.floor(unsortedArray.length / 2);
+    
+        // Dividing the array into left and right
+        const left = unsortedArray.slice(0, middle);
+        const right = unsortedArray.slice(middle);
+    
+        // Using recursion to combine the left and right
+        return merge(
+            mergeSort(left), mergeSort(right)
+        );
+    }
+
+    function merge(leftArr,rightArr) 
+    {
+        var i = 0;
+        var j = 0;
+        var results = [];
+    
+        while (i < leftArr.length || j < rightArr.length) {
+            if (i === leftArr.length) {
+                // j is the only index leftArr
+                results.push(rightArr[j]);
+                j++;
+            } 
+          else if (j === rightArr.length || leftArr[i] <= rightArr[j]) {
+                results.push(leftArr[i]);
+                i++;
+
+            } else {
+                results.push(rightArr[j]);
+                j++;
+            }
+        }
+        return results
+            .concat(leftArr.slice(i))
+            .concat(rightArr.slice(j));
+    }
+
 }
