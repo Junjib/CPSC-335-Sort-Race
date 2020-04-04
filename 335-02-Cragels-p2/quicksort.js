@@ -5,14 +5,18 @@ class Quicksort
         this.p = 0;
         this.i = 1;
         this.j = input.length - 1;
+        this.truePivot = 0;
+        this.init = false;
         this.arr = input;
         this.partitions = [];
+        this.trueIndex = [];
         this.partitions.push(this.arr);
-    }
-
-    getArray()
-    {
-        return this.arr;
+        var x = [];
+        for(var i = 0; i < this.arr.length; i++)
+        {
+            x[i] = i;
+        }
+        this.trueIndex.push(x);
     }
 
     swap()
@@ -21,24 +25,30 @@ class Quicksort
         if(this.i < this.j)
         {
             temp = this.partitions[0][this.i];
+            //console.log("i:", this.i, "j:", this.j);
             this.partitions[0][this.i] = this.partitions[0][this.j];
             this.partitions[0][this.j] = temp;
+            this.arr[this.trueIndex[0][this.i]] = this.partitions[0][this.i];
+            this.arr[this.trueIndex[0][this.j]] = this.partitions[0][this.j];
         }
         else if(this.i > this.j || this.partitions[0][this.i] == this.partitions[0][this.j])
         {
             temp = this.partitions[0][this.j];
             this.partitions[0][this.j] = this.partitions[0][this.p];
             this.partitions[0][this.p] = temp;
+            this.arr[this.trueIndex[0][this.j]] = this.partitions[0][this.j];
+            this.arr[this.trueIndex[0][this.p]] = this.partitions[0][this.p];
+            if(!this.init)
+            {
+                this.truePivot = this.j
+                this.init = true;
+                //console.log("truePivot: ", this.truePivot);
+            }
         }
     }
 
     step()
     {
-        if(this.partitions[0].length == 1 || this.partitions[0].length == 0)
-        {
-            this.partitions.shift();
-            console.log("partitions[0] popped");
-        }
         if(this.partitions.length == 0)
         {
             return 0;
@@ -46,27 +56,27 @@ class Quicksort
         if(this.i > this.j)
         {
             this.swap();
-            console.log("j: ", this.j);
             this.createPartition();
             this.partitions.shift();
-            console.log("partitions[0]: ", this.partitions[0]);
-            if(this.partitions.length == 0)
+            this.trueIndex.shift();
+            //console.log("partitions[0]: ", this.partitions[0]);
+            //console.log("trueIndex[0]: ", this.trueIndex[0]);
+            if(this.partitions.length == 0 && this.trueIndex.length == 0)
             {
                 return 0;
             }
-            else
-            {
-                this.i = 1;
-                this.j = this.partitions[0].length - 1;
-            }
-            console.log("partitions list: ", this.partitions);
+            this.i = 1;
+            this.j = this.partitions[0].length - 1;
+            //console.log("partitions list: ", this.partitions);
+            //console.log(this.partitions[0][this.j]);
+            return 1;
         }
 
         if(this.partitions[0][this.i] >= this.partitions[0][this.p] && this.partitions[0][this.j] <= this.partitions[0][this.p])
         {
             this.swap();
             this.i++;
-            this.j--;
+            this.j--;;
             return 1;
         }
         else if(this.partitions[0][this.i] >= this.partitions[0][this.p])
@@ -89,47 +99,69 @@ class Quicksort
 
     createPartition()
     {
+        //console.log("partitioning: ", this.partitions[0]);
         if(this.j > 0 && this.j < (this.partitions[0].length - 1))
         {
             var count = (this.j+1);
             var lowerPartition = [];
+            var lowerIndex = [];
             for(var i = 0; i < this.j; i++)
             {
                 lowerPartition[i] = this.partitions[0][i];
+                lowerIndex[i] = this.trueIndex[0][i];
             }
-            console.log("lowerPartition: ", lowerPartition);
-            this.partitions.push(lowerPartition);
+            //console.log("lowerPartition: ", lowerPartition);
+            //console.log("trueIndex: ", lowerIndex);
+            if(lowerPartition.length > 1)
+            {
+                this.partitions.push(lowerPartition);
+                this.trueIndex.push(lowerIndex);
+            }
             var upperPartition = [];
+            var upperIndex = [];
             for(var i = 0; i < (this.partitions[0].length-this.j-1); i++)
             {
                 upperPartition[i] = this.partitions[0][count];
+                upperIndex[i] = this.trueIndex[0][count];
                 count++;
             }
-            console.log("upperPartition: ", upperPartition);
-            this.partitions.push(upperPartition);
+            //console.log("upperPartition: ", upperPartition);
+            //console.log("trueIndex: ", upperIndex);
+            if(upperPartition.length > 1)
+            {
+                this.partitions.push(upperPartition);
+                this.trueIndex.push(upperIndex);
+            }
         }
         else
         {
             var partition = [];
+            var partIndex = [];
             if(this.j == 0)
             {
                 var count1 = (this.j+1);
                 for(var i = 0; i < this.partitions[0].length-1; i++)
                 {
                     partition[i] = this.partitions[0][count1];
+                    partIndex[i] = this.trueIndex[0][count1];
                     count1++;
                 }
-                this.partitions.push(partition);
             }
             else if(this.j == (this.partitions[0].length-1))
             {
                 for(var i = 0; i < this.j; i++)
                 {
                     partition[i] = this.partitions[0][i];
+                    partIndex[i] = this.trueIndex[0][i];
                 }
-                this.partitions.push(partition);
             }
-            console.log("partition: ", partition);
+            //console.log("partition: ", partition);
+            //console.log("trueIndex: ", partIndex);
+            if(partition.length > 1)
+            {
+                this.partitions.push(partition);
+                this.trueIndex.push(partIndex);
+            }
         }
     }
 }
