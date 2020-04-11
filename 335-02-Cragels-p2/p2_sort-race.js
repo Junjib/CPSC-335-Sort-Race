@@ -1,4 +1,3 @@
-
 // Project 2: Sort-Race
 // Authors: Junji Bressan, Armon Rahimi, Cindy Quach
 // Email: Junjib@csu.fullerton.edu
@@ -12,7 +11,9 @@
 var g_canvas = { cell_size: 20, wid: 36, hgt: 40 }; // JS Global var, w canvas size info.
 var inputArr;
 var mergeArr = []; var quickArr = []; var goldArr = [];
-var finishQuick; var quickInterval;
+var finishQuick = 1; var quickInterval;
+var x = 20; var finishGold = 1;
+var x1 = 20;
 
 function setup() // P5 Setup Fcn
 {
@@ -32,8 +33,11 @@ function setup() // P5 Setup Fcn
 }
 
 function draw() {
+    frameRate(10);
     // RaceManager() called here it will run through each algorithm one at a time.
     // When all Algorithms are finished (i.e. return 0) then we are done.
+    updateQuick();
+    //updateGold();
     raceManager();
 }
 
@@ -132,7 +136,7 @@ function Golds() {
             goldArr[2] = y;
             goldArr[3] = x;
         }
-        if (array[4] > array[5]) {
+        if (goldArr[4] > goldArr[5]) {
             x = goldArr[4];
             y = goldArr[5];
             goldArr[4] = y;
@@ -177,7 +181,7 @@ function Golds() {
         }
         if (goldArr[7] > goldArr[8]) {
             x = goldArr[7];
-            y = Golds[8];
+            y = goldArr[8];
             goldArr[7] = y;
             goldArr[8] = x;
         }
@@ -187,15 +191,21 @@ function Golds() {
             goldArr[9] = y;
             goldArr[10] = x;
         }
+        //updateGold();
+        for (var i = 0; i < 12; i += 2)
+            if (goldArr[i] > goldArr[i + 1])
+                var count = 0;
+        count++;
+        updateGold();
+        console.log(goldArr);
+        if (count == 12) {
+            sort = 0;
+            // return sort;
+        }
+        //updateGold();
     }
-    for (var i = 0; i < 12; i += 2)
-        if (goldArr[i] > goldArr[i + 1])
-            var count = 0;
-    count++;
-    if (count == 12) {
-        sort = 0;
-        return 0;
-    }
+    //updateGold();
+    return sort;
 }
 
 function mergeSort(unsortedArray) {
@@ -259,12 +269,36 @@ function raceManager() {
 
 
     //Insert functions concerning Quicksort here
-    quickInterval = setInterval(quickStep, 200);
+    if (finishQuick != 0) {
+        finishQuick = quickObj.step();
+    }
 
 
 
     //Insert functions concerning Gold's Poresort here
+    else if (finishQuick == 0 && finishGold != 0) {
+        finishGold = Golds();
+    }
+}
 
+function updateQuick() {
+    textSize(22);
+    if (finishQuick == 1) {
+        fill("red");
+        text(quickArr, 250, x);
+        x = x + 20;
+    }
+}
 
-
+function updateGold() {
+    textSize(22);
+    fill("red");
+    text(goldArr, 500, x1);
+    x1 = x1 + 20;
+    //text(goldArr,20,20)
+    /*if (finishGold == 1) {
+        fill("red");
+        text(goldArr, 500, y);
+        y = y + 20;
+    }*/
 }
