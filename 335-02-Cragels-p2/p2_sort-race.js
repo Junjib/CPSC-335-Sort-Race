@@ -14,7 +14,9 @@ var mergeArr = []; var quickArr = []; var goldArr = [];
 var finishQuick = 1; var quickInterval;
 var x = 20; var finishGold = 1;
 var x1 = 20;
-
+var mergeInterval;
+var finishMerge = 1;
+var z = 20;
 function setup() // P5 Setup Fcn
 {
     let sz = g_canvas.cell_size;
@@ -30,15 +32,20 @@ function setup() // P5 Setup Fcn
         goldArr[i] = inputArr[i];
     }
     quickObj = new Quicksort(quickArr);
+    mergeObj = new MergeSort(mergeArr);
 }
 
 function draw() {
     frameRate(10);
     // RaceManager() called here it will run through each algorithm one at a time.
     // When all Algorithms are finished (i.e. return 0) then we are done.
+    updateMerge();
+
     updateQuick();
+    
     //updateGold();
     raceManager();
+    text(mergeArr, 275, 350);
 }
 
 function selectInput() {
@@ -191,7 +198,6 @@ function Golds() {
             goldArr[9] = y;
             goldArr[10] = x;
         }
-        //updateGold();
         for (var i = 0; i < 12; i += 2)
             if (goldArr[i] > goldArr[i + 1])
                 var count = 0;
@@ -200,54 +206,9 @@ function Golds() {
         console.log(goldArr);
         if (count == 12) {
             sort = 0;
-            // return sort;
         }
-        //updateGold();
     }
-    //updateGold();
     return sort;
-}
-
-function mergeSort(unsortedArray) {
-    if (unsortedArray.length <= 1) {
-        return unsortedArray;
-    }
-    // Get the middle
-    const middle = Math.floor(unsortedArray.length / 2);
-
-    // Dividing the array into left and right
-    const left = unsortedArray.slice(0, middle);
-    const right = unsortedArray.slice(middle);
-
-    // Using recursion to combine the left and right
-    return merge(
-        mergeSort(left), mergeSort(right)
-    );
-}
-
-function merge(leftArr, rightArr) {
-    var i = 0;
-    var j = 0;
-    var results = [];
-
-    while (i < leftArr.length || j < rightArr.length) {
-        if (i === leftArr.length) {
-            // j is the only index leftArr
-            results.push(rightArr[j]);
-            j++;
-        }
-        else if (j === rightArr.length || leftArr[i] <= rightArr[j]) {
-            results.push(leftArr[i]);
-            i++;
-
-        } else {
-            results.push(rightArr[j]);
-            j++;
-        }
-    }
-    return results
-        .concat(leftArr.slice(i))
-        .concat(rightArr.slice(j));
 }
 
 
@@ -263,13 +224,27 @@ function quickStep() {
     }
 }
 
+function MergeStep() {
+    finishMerge = mergeObj.step();
+
+    if (finishMerge == 1) {
+        //insert code to update the grid on the HTML page
+    }
+
+    if (finishMerge == 0) {
+        clearInterval(mergeInterval);
+    }
+}
+
 function raceManager() {
     //Insert functions concerning Mergesort here
-
+    if (finishGold == 0 && finishMerge != 0) {
+        finishMerge = mergeObj.step();
+    }
 
 
     //Insert functions concerning Quicksort here
-    if (finishQuick != 0) {
+    else if (finishQuick != 0) {
         finishQuick = quickObj.step();
     }
 
@@ -279,6 +254,8 @@ function raceManager() {
     else if (finishQuick == 0 && finishGold != 0) {
         finishGold = Golds();
     }
+
+    
 }
 
 function updateQuick() {
@@ -295,10 +272,14 @@ function updateGold() {
     fill("red");
     text(goldArr, 500, x1);
     x1 = x1 + 20;
-    //text(goldArr,20,20)
-    /*if (finishGold == 1) {
+}
+
+
+function updateMerge() {
+    textSize(22);
+    if (finishMerge == 1) {
         fill("red");
-        text(goldArr, 500, y);
-        y = y + 20;
-    }*/
+        text(mergeArr, 0, z);
+        z = z + 20;
+    }
 }
