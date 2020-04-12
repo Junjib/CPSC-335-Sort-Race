@@ -8,14 +8,12 @@
 // A sorting race between Mergesort, Quicksort, and Gold's Poresort
 
 // Global Variable declaration
-var g_canvas = { cell_size: 20, wid: 36, hgt: 40 }; // JS Global var, w canvas size info.
+var g_canvas = { cell_size: 20, wid: 36, hgt: 45 }; // JS Global var, w canvas size info.
 var inputArr;
 var mergeArr = []; var quickArr = []; var goldArr = [];
-var finishQuick = 1; var quickInterval;
-var x = 20; var finishGold = 1;
+var finishQuick = 1; var finishGold = 1; var finishMerge = 1; 
+var x = 20; 
 var x1 = 20;
-var mergeInterval;
-var finishMerge = 1;
 var z = 20;
 function setup() // P5 Setup Fcn
 {
@@ -23,7 +21,7 @@ function setup() // P5 Setup Fcn
     let width = sz * g_canvas.wid;  // Our 'canvas' uses cells of given size, not 1x1 pixels.
     let height = sz * g_canvas.hgt;
     createCanvas(width, height);  // Make a P5 canvas.
-    draw_grid(20, 50, "white");
+    draw_grid(20, 50, "black");
     selectInput();
     console.log(inputArr);
     for (let i = 0; i < inputArr.length; i++) {
@@ -36,16 +34,10 @@ function setup() // P5 Setup Fcn
 }
 
 function draw() {
-    frameRate(10);
+    frameRate(5);
     // RaceManager() called here it will run through each algorithm one at a time.
     // When all Algorithms are finished (i.e. return 0) then we are done.
-    updateMerge();
-
-    updateQuick();
-    
-    //updateGold();
     raceManager();
-    text(mergeArr, 275, 350);
 }
 
 function selectInput() {
@@ -203,7 +195,6 @@ function Golds() {
                 var count = 0;
         count++;
         updateGold();
-        console.log(goldArr);
         if (count == 12) {
             sort = 0;
         }
@@ -211,57 +202,27 @@ function Golds() {
     return sort;
 }
 
-
-function quickStep() {
-    finishQuick = quickObj.step();
-
-    if (finishQuick == 1) {
-        //insert code to update the grid on the HTML page
-    }
-
-    if (finishQuick == 0) {
-        clearInterval(quickInterval);
-    }
-}
-
-function MergeStep() {
-    finishMerge = mergeObj.step();
-
-    if (finishMerge == 1) {
-        //insert code to update the grid on the HTML page
-    }
-
-    if (finishMerge == 0) {
-        clearInterval(mergeInterval);
-    }
-}
-
 function raceManager() {
     //Insert functions concerning Mergesort here
-    if (finishGold == 0 && finishMerge != 0) {
+    if (finishMerge != 0) {
+        updateMerge();
         finishMerge = mergeObj.step();
     }
-
-
     //Insert functions concerning Quicksort here
-    else if (finishQuick != 0) {
+    else if (finishQuick != 0 && finishMerge == 0) {
+        updateQuick();
         finishQuick = quickObj.step();
     }
-
-
-
     //Insert functions concerning Gold's Poresort here
     else if (finishQuick == 0 && finishGold != 0) {
         finishGold = Golds();
-    }
-
-    
+    }   
 }
 
 function updateQuick() {
     textSize(22);
     if (finishQuick == 1) {
-        fill("red");
+        fill("orange");
         text(quickArr, 250, x);
         x = x + 20;
     }
@@ -269,7 +230,7 @@ function updateQuick() {
 
 function updateGold() {
     textSize(22);
-    fill("red");
+    fill("orange");
     text(goldArr, 500, x1);
     x1 = x1 + 20;
 }
@@ -277,8 +238,9 @@ function updateGold() {
 
 function updateMerge() {
     textSize(22);
-    if (finishMerge == 1) {
-        fill("red");
+    if(finishMerge == 2)
+    {
+        fill("orange");
         text(mergeArr, 0, z);
         z = z + 20;
     }

@@ -7,7 +7,7 @@
 // & major row/col numbers.
 
 var divLine = 11;
-var newStroke = 'orange';
+var newStroke = 'white';
 var count = 0;
 function draw_grid( rminor, rmajor, rstroke ) 
 {
@@ -15,7 +15,13 @@ function draw_grid( rminor, rmajor, rstroke )
     let sz = g_canvas.cell_size;
     let width = g_canvas.wid*sz;
     let height = g_canvas.hgt*sz
-    for ( var ix = 0; ix < width; ix += rminor )
+    strokeWeight(2.5)
+    stroke(newStroke)
+    line(235, 0, 235, height);
+    strokeWeight(2.5)
+    stroke(newStroke)
+    line(485, 0, 485, height);
+    /*for ( var ix = 0; ix < width; ix += rminor )
     {
         let big_linep = (ix % rmajor == 0);
         let line_wgt = 1.5;
@@ -35,13 +41,13 @@ function draw_grid( rminor, rmajor, rstroke )
         count++;
         //strokeWeight( 1.5 );
         //if ( ix % rmajor == 0 ) { text( ix, ix, 10 ); }
-    }
+    }*/
     count = 0;
     stroke( rstroke );
     for ( var iy = 0; iy < height; iy += rminor )
     {
         let big_linep = (iy % rmajor == 0);
-        let line_wgt = 1.5;
+        let line_wgt = 2.5;
         if (big_linep)
         {
             strokeWeight( line_wgt );
